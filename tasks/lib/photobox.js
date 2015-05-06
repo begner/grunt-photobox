@@ -515,7 +515,8 @@ PhotoBox.prototype.startPhotoSession = function() {
     localToRemoteUrlAccessEnabled : this.options.localToRemoteUrlAccessEnabled,
     password                      : this.options.password,
     userAgent                     : this.options.userAgent,
-    userName                      : this.options.userName
+    userName                      : this.options.userName,
+	waitTillShot				  : this.options.waitTillShot
   } );
 
   this.pictures.forEach( function( picture ) {
@@ -539,13 +540,19 @@ PhotoBox.prototype.startPhotoSession = function() {
 
     this.grunt.log.verbose.writeln( 'Command: phantomjs ' + args.join( ' ' ) + '\n' );
 
-    this.grunt.util.spawn( {
+	var that = this;
+	  setTimeout(function() {
+
+		  that.grunt.util.spawn( {
       cmd  : phantomPath,
       args : args,
       opts : opts
     }, function( err, result, code ) {
-      this.photoSessionCallback( err, result, code, picture );
-    }.bind( this ) );
+		that.photoSessionCallback( err, result, code, picture );
+    }.bind( that ) );
+  }, 1000);
+
+
   }.bind( this ) );
 };
 

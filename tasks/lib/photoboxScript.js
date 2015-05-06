@@ -72,8 +72,9 @@ page.open( url, function( status ) {
                     '.png';
 
     console.log( 'Rendering ' + picture, width);
+
     page.render( imgPath );
 
     phantom.exit();
-  }, 5000);
+  }, page.settings.waitTillShot);
 } );
